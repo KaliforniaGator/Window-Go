@@ -1,4 +1,5 @@
 # Window-Go
+![Screen Shot 2025-05-18 at 10(1)](https://github.com/user-attachments/assets/0bfb3598-18e7-4615-b155-33580f1b7b2f)
 
 ## Features
 
@@ -21,6 +22,10 @@
     *   Automatic cursor management: shows cursor for active input elements (TextBox, TextArea), hides otherwise.
     *   Smart title truncation with "..." for titles longer than available width.
     *   Basic support for wide character and emoji display width in titles.
+
+
+![Screen Shot 2025-05-18 at 10(1)(1)](https://github.com/user-attachments/assets/d5bd3076-69da-4b08-8485-96815b113459)
+
 
 ### UI Elements
 
@@ -98,6 +103,9 @@
     *   Keyboard navigation between buttons (Left/Right arrows or Tab for non-modal).
     *   Renders with a high Z-index to appear above other content.
 
+
+![Screen Shot 2025-05-18 at 10(1)(2)](https://github.com/user-attachments/assets/ebc5c114-bd2d-4a25-b7dc-9a240d9c78da)
+
 ### Box Drawing Styles
 
 The following box drawing styles are available:
@@ -105,6 +113,8 @@ The following box drawing styles are available:
 * `double` - Double line borders (╔═╗║╚╝)
 * `round` - Rounded corners (╭─╮│╰╯)
 * `bold` - Bold lines (┏━┓┃┗┛)
+
+![Screen Shot 2025-05-18 at 10(1)(3)](https://github.com/user-attachments/assets/ff618996-d19f-40f6-b7b9-095b18fb956e)
 
 ### Color Support
 
@@ -117,6 +127,8 @@ Window-Go provides extensive color support through the `colors` package:
 * Background Grays: bg_gray1, bg_gray2, bg_gray3, bg_gray4, bg_gray5
 
 Colors can be combined using the + operator: `colors.BgBlue + colors.BoldWhite`
+
+![Screen Shot 2025-05-18 at 10(1)(4)](https://github.com/user-attachments/assets/f72a0500-5e54-483c-8e9f-ab038480b112)
 
 ### Helper Functions
 
