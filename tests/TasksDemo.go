@@ -124,11 +124,11 @@ func TestWindowApp() {
 				lineColor := colors.White // Default color
 				switch task.Priority {
 				case "Low":
-					lineColor = colors.Blue
+					lineColor = colors.BoldGreen
 				case "Medium":
-					lineColor = colors.White
+					lineColor = colors.BoldYellow
 				case "High":
-					lineColor = colors.Red
+					lineColor = colors.BoldRed
 				}
 				// Format: "Index: Status Name (Priority)" with color
 				line := fmt.Sprintf("%s%d: %s %s (%s)%s", lineColor, i, status, task.Name, task.Priority, colors.Reset)
