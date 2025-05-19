@@ -85,11 +85,11 @@ func TestWindowApp() {
 		lineColor := colors.White // Default color
 		switch task.Priority {
 		case "Low":
-			lineColor = colors.Blue
+			lineColor = colors.BoldGreen
 		case "Medium":
-			lineColor = colors.White
+			lineColor = colors.BoldYellow
 		case "High":
-			lineColor = colors.Red
+			lineColor = colors.BoldRed
 		}
 		line := fmt.Sprintf("%s%d: %s %s (%s)%s", lineColor, i, status, task.Name, task.Priority, colors.Reset)
 		initialContent = append(initialContent, line)
@@ -250,7 +250,7 @@ func TestWindowApp() {
 	winY := (termHeight - winHeight) / 2
 
 	// Prettier window style and colors
-	testWin := NewWindow("🚀", "Freedom Task", winX, winY, winWidth, winHeight,
+	testWin := NewWindow("🚀", "Window-Go Task", winX, winY, winWidth, winHeight,
 		"rounded", colors.BoldMagenta, colors.Cyan, colors.BgBlack, colors.White) // Rounded border, Magenta title, Cyan border
 
 	// --- Elements ---
@@ -293,13 +293,13 @@ func TestWindowApp() {
 	prioBtnX := inputFieldX
 	prioBtnSpacing := 12 // Adjust spacing if needed
 	// Low: Green
-	prioLow := NewRadioButton("Low", "Low", prioBtnX, prioBtnY, colors.Blue, colors.BgBlue+colors.BoldWhite, priorityGroup)
+	prioLow := NewRadioButton("Low", "Low", prioBtnX, prioBtnY, colors.BoldGreen, colors.BgGreen+colors.BoldWhite, priorityGroup)
 	testWin.AddElement(prioLow)
 	// Medium: Yellow
-	prioMedium := NewRadioButton("Medium", "Medium", prioBtnX+prioBtnSpacing, prioBtnY, colors.White, colors.BgWhite+colors.BoldBlack, priorityGroup) // Yellow, Black text on active
+	prioMedium := NewRadioButton("Medium", "Medium", prioBtnX+prioBtnSpacing, prioBtnY, colors.BoldYellow, colors.BgWhite+colors.BoldBlack, priorityGroup) // Yellow, Black text on active
 	testWin.AddElement(prioMedium)
 	// High: Red
-	prioHigh := NewRadioButton("High", "High", prioBtnX+prioBtnSpacing*2, prioBtnY, colors.Red, colors.BgRed+colors.BoldWhite, priorityGroup)
+	prioHigh := NewRadioButton("High", "High", prioBtnX+prioBtnSpacing*2, prioBtnY, colors.BoldRed, colors.BgRed+colors.BoldWhite, priorityGroup)
 	testWin.AddElement(prioHigh)
 	priorityGroup.Select(0) // Default to Low
 	currentY++
