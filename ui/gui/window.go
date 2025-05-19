@@ -749,22 +749,22 @@ func (w *Window) WindowActions() {
 
 				if isPrintable {
 					// If it's the first keypress in a pristine box, clear it first.
-					if focusedTextBox.isPristine {
+					if focusedTextBox.IsPristine {
 						focusedTextBox.Text = ""
-						focusedTextBox.cursorPos = 0
-						focusedTextBox.isPristine = false
+						focusedTextBox.CursorPos = 0
+						focusedTextBox.IsPristine = false
 					}
 					// Insert character at cursor position
-					focusedTextBox.Text = focusedTextBox.Text[:focusedTextBox.cursorPos] + string(key[0]) + focusedTextBox.Text[focusedTextBox.cursorPos:]
-					focusedTextBox.cursorPos++
+					focusedTextBox.Text = focusedTextBox.Text[:focusedTextBox.CursorPos] + string(key[0]) + focusedTextBox.Text[focusedTextBox.CursorPos:]
+					focusedTextBox.CursorPos++
 					loopNeedsRender = true
 				} else if n == 1 {
 					switch key[0] {
 					case 127, 8: // Backspace (DEL or ASCII BS)
-						if focusedTextBox.cursorPos > 0 {
-							focusedTextBox.Text = focusedTextBox.Text[:focusedTextBox.cursorPos-1] + focusedTextBox.Text[focusedTextBox.cursorPos:]
-							focusedTextBox.cursorPos--
-							focusedTextBox.isPristine = false // Edited
+						if focusedTextBox.CursorPos > 0 {
+							focusedTextBox.Text = focusedTextBox.Text[:focusedTextBox.CursorPos-1] + focusedTextBox.Text[focusedTextBox.CursorPos:]
+							focusedTextBox.CursorPos--
+							focusedTextBox.IsPristine = false // Edited
 							loopNeedsRender = true
 						}
 					case '\t': // Tab - Move focus to next element
@@ -779,15 +779,15 @@ func (w *Window) WindowActions() {
 				} else if n == 3 && key[0] == '\x1b' && key[1] == '[' { // ANSI Escape sequences (Arrows, etc.)
 					switch key[2] {
 					case 'D': // Left Arrow
-						if focusedTextBox.cursorPos > 0 {
-							focusedTextBox.cursorPos--
-							focusedTextBox.isPristine = false // Interacted
+						if focusedTextBox.CursorPos > 0 {
+							focusedTextBox.CursorPos--
+							focusedTextBox.IsPristine = false // Interacted
 							loopNeedsRender = true            // Need re-render to show cursor move
 						}
 					case 'C': // Right Arrow
-						if focusedTextBox.cursorPos < len(focusedTextBox.Text) {
-							focusedTextBox.cursorPos++
-							focusedTextBox.isPristine = false // Interacted
+						if focusedTextBox.CursorPos < len(focusedTextBox.Text) {
+							focusedTextBox.CursorPos++
+							focusedTextBox.IsPristine = false // Interacted
 							loopNeedsRender = true            // Need re-render to show cursor move
 						}
 					case 'Z': // Shift+Tab
@@ -797,9 +797,9 @@ func (w *Window) WindowActions() {
 				} else if n == 4 && key[0] == '\x1b' && key[1] == '[' && key[3] == '~' { // More escape sequences
 					switch key[2] {
 					case '3': // Delete key (\x1b[3~)
-						if focusedTextBox.cursorPos < len(focusedTextBox.Text) {
-							focusedTextBox.Text = focusedTextBox.Text[:focusedTextBox.cursorPos] + focusedTextBox.Text[focusedTextBox.cursorPos+1:]
-							focusedTextBox.isPristine = false // Edited
+						if focusedTextBox.CursorPos < len(focusedTextBox.Text) {
+							focusedTextBox.Text = focusedTextBox.Text[:focusedTextBox.CursorPos] + focusedTextBox.Text[focusedTextBox.CursorPos+1:]
+							focusedTextBox.IsPristine = false // Edited
 							loopNeedsRender = true
 						}
 					}

@@ -3,7 +3,7 @@ package tests
 import (
 	"fmt"
 	"window-go/colors"
-	"window-go/ui/gui" // Import the gui package
+	. "window-go/ui/gui" // Import the gui package
 	// Removed unused imports: strconv, strings, time
 )
 
@@ -15,14 +15,14 @@ type Note struct {
 
 // --- Custom KeyStrokeHandler ---
 type NotesAppKeyHandler struct {
-	notesListContainer *gui.Container
+	notesListContainer *Container
 	notes              *[]Note
 	selectedNoteIndex  *int
 	loadNoteForEditing func(int)
 }
 
 // HandleKeyStroke processes keyboard input for the notes app
-func (h *NotesAppKeyHandler) HandleKeyStroke(key []byte, w *gui.Window) (handled bool, needsRender bool, shouldQuit bool) {
+func (h *NotesAppKeyHandler) HandleKeyStroke(key []byte, w *Window) (handled bool, needsRender bool, shouldQuit bool) {
 	// Check if we have Enter key press when the notes list container is focused
 	if len(key) == 1 && (key[0] == '\r' || key[0] == '\n') && h.notesListContainer.IsActive {
 		highlightedIdx := h.notesListContainer.GetHighlightedIndex()
@@ -55,10 +55,10 @@ func TestSegmentsApp() {
 	selectedNoteIndex := -1 // Index of the note currently being edited, -1 for new note
 
 	// --- UI Element References ---
-	var notesListContainer *gui.Container
-	var titleInput *gui.TextBox
-	var contentInput *gui.TextArea // Using TextArea
-	var infoLabel *gui.Label       // To display status messages
+	var notesListContainer *Container
+	var titleInput *TextBox
+	var contentInput *TextArea // Using TextArea
+	var infoLabel *Label       // To display status messages
 
 	// --- Helper Functions ---
 
@@ -138,9 +138,9 @@ func TestSegmentsApp() {
 	}
 
 	// --- UI Setup ---
-	fmt.Print(gui.ClearScreenAndBuffer())
-	termWidth := gui.GetTerminalWidth()
-	termHeight := gui.GetTerminalHeight()
+	fmt.Print(ClearScreenAndBuffer())
+	termWidth := GetTerminalWidth()
+	termHeight := GetTerminalHeight()
 
 	// Window dimensions
 	winWidth := termWidth * 9 / 10
@@ -155,7 +155,7 @@ func TestSegmentsApp() {
 	winY := (termHeight - winHeight) / 2
 
 	// Create Window
-	notesWin := gui.NewWindow("📝", "Segmented Notes App", winX, winY, winWidth, winHeight,
+	notesWin := NewWindow("📝", "Segmented Notes App", winX, winY, winWidth, winHeight,
 		"rounded", colors.BoldYellow, colors.Yellow, colors.BgBlack, colors.White)
 
 	contentAreaWidth := winWidth - 2
@@ -175,12 +175,12 @@ func TestSegmentsApp() {
 	currentY := 1 // Relative Y within window content
 
 	// --- Info Label (Top) ---
-	infoLabel = gui.NewLabel("Welcome! Select a note or create one.", 1, currentY, colors.Gray)
+	infoLabel = NewLabel("Welcome! Select a note or create one.", 1, currentY, colors.Gray)
 	notesWin.AddElement(infoLabel)
 	currentY += 2
 
 	// --- Left Segment: Notes List ---
-	notesLabel := gui.NewLabel("Notes:", 1, currentY, colors.BoldWhite)
+	notesLabel := NewLabel("Notes:", 1, currentY, colors.BoldWhite)
 	notesWin.AddElement(notesLabel)
 	currentY++
 
@@ -188,9 +188,9 @@ func TestSegmentsApp() {
 	if listHeight < 1 {
 		listHeight = 1
 	}
-	notesListContainer = gui.NewContainer(1, currentY, leftSegmentWidth, listHeight, []string{}) // Use calculated width
-	notesListContainer.Color = colors.BgYellow + colors.Black                                    // Yellow background with black text
-	notesListContainer.SelectionColor = colors.BgBlue + colors.BoldWhite                         // Keep selection highlight
+	notesListContainer = NewContainer(1, currentY, leftSegmentWidth, listHeight, []string{}) // Use calculated width
+	notesListContainer.Color = colors.BgYellow + colors.Black                                // Yellow background with black text
+	notesListContainer.SelectionColor = colors.BgBlue + colors.BoldWhite                     // Keep selection highlight
 	notesListContainer.OnItemSelected = func(index int) {
 		// This callback is triggered by Enter key when the container is focused
 		loadNoteForEditing(index)
@@ -202,7 +202,7 @@ func TestSegmentsApp() {
 	dividerY := 1 // Start at the top of content area
 	dividerHeight := contentAreaHeight - 1
 	for i := 0; i < dividerHeight; i++ {
-		divider := gui.NewLabel("│", dividerX, dividerY+i, colors.Gray)
+		divider := NewLabel("│", dividerX, dividerY+i, colors.Gray)
 		notesWin.AddElement(divider)
 	}
 
@@ -211,15 +211,15 @@ func TestSegmentsApp() {
 	editorInputY := editorY
 
 	// Title
-	titleLabel := gui.NewLabel("Title:", rightSegmentX, editorInputY, colors.White)
+	titleLabel := NewLabel("Title:", rightSegmentX, editorInputY, colors.White)
 	notesWin.AddElement(titleLabel)
 	editorInputY++
-	titleInput = gui.NewTextBox("", rightSegmentX, editorInputY, rightSegmentWidth, colors.BgBlack+colors.White, colors.BgCyan+colors.BoldBlack) // Use calculated width
+	titleInput = NewTextBox("", rightSegmentX, editorInputY, rightSegmentWidth, colors.BgBlack+colors.White, colors.BgCyan+colors.BoldBlack) // Use calculated width
 	notesWin.AddElement(titleInput)
 	editorInputY += 2 // Add space
 
 	// Content
-	contentLabel := gui.NewLabel("Content:", rightSegmentX, editorInputY, colors.White)
+	contentLabel := NewLabel("Content:", rightSegmentX, editorInputY, colors.White)
 	notesWin.AddElement(contentLabel)
 	editorInputY++
 	// Calculate height for TextArea, leaving space for buttons and bottom margin
@@ -228,7 +228,7 @@ func TestSegmentsApp() {
 		textAreaHeight = 3 // Minimum height for TextArea (1 text line + 1 count line + scrollbar)
 	}
 	// Use NewTextArea instead of NewTextBox
-	contentInput = gui.NewTextArea("", rightSegmentX, editorInputY, rightSegmentWidth, textAreaHeight, 0, // Use calculated width
+	contentInput = NewTextArea("", rightSegmentX, editorInputY, rightSegmentWidth, textAreaHeight, 0, // Use calculated width
 		colors.BgBlack+colors.White, colors.BgCyan+colors.BoldBlack, true, true) // Show word and char count
 	contentInput.IsActive = false     // Start inactive, but allow it to be focused
 	notesWin.AddElement(contentInput) // TextArea added to the window
@@ -251,7 +251,7 @@ func TestSegmentsApp() {
 	}
 
 	// New Button
-	newButton := gui.NewButton("New", buttonStartX, buttonY, buttonWidth, colors.BoldGreen, colors.BgGreen+colors.BoldWhite, func() bool {
+	newButton := NewButton("New", buttonStartX, buttonY, buttonWidth, colors.BoldGreen, colors.BgGreen+colors.BoldWhite, func() bool {
 		clearEditor()
 		updateNotesListDisplay() // Update list to remove selection highlight
 		// Optionally move focus back to title input? Requires focus API extension.
@@ -261,7 +261,7 @@ func TestSegmentsApp() {
 
 	// Save Button
 	saveButtonX := buttonStartX + buttonWidth + buttonSpacing
-	saveButton := gui.NewButton("Save", saveButtonX, buttonY, buttonWidth, colors.BoldBlue, colors.BgBlue+colors.BoldWhite, func() bool {
+	saveButton := NewButton("Save", saveButtonX, buttonY, buttonWidth, colors.BoldBlue, colors.BgBlue+colors.BoldWhite, func() bool {
 		title := titleInput.Text
 		content := contentInput.GetText() // Use GetText for TextArea
 		if title == "" {
@@ -293,7 +293,7 @@ func TestSegmentsApp() {
 
 	// Delete Button
 	deleteButtonX := saveButtonX + buttonWidth + buttonSpacing
-	deleteButton := gui.NewButton("Delete", deleteButtonX, buttonY, buttonWidth, colors.BoldRed, colors.BgRed+colors.BoldWhite, func() bool {
+	deleteButton := NewButton("Delete", deleteButtonX, buttonY, buttonWidth, colors.BoldRed, colors.BgRed+colors.BoldWhite, func() bool {
 		if selectedNoteIndex >= 0 && selectedNoteIndex < len(notes) {
 			indexToDelete := selectedNoteIndex
 			noteTitle := notes[indexToDelete].Title

@@ -1,10 +1,11 @@
-package gui
+package tests
 
 import (
 	"fmt"
 	"strconv"
 	"time"
 	"window-go/colors"
+	. "window-go/ui/gui"
 )
 
 // --- Task Data Structure ---
@@ -35,8 +36,8 @@ func (h *TaskAppKeyHandler) HandleKeyStroke(key []byte, w *Window) (handled bool
 			if h.indexInput != nil {
 				idxStr := strconv.Itoa(highlightedIdx)
 				h.indexInput.Text = idxStr
-				h.indexInput.cursorPos = len(idxStr)
-				h.indexInput.isPristine = false
+				h.indexInput.CursorPos = len(idxStr)
+				h.indexInput.IsPristine = false
 			}
 
 			// Update info label
@@ -190,13 +191,13 @@ func TestWindowApp() {
 	// Clears input fields
 	clearInputs := func() {
 		nameInput.Text = ""
-		nameInput.cursorPos = 0
-		nameInput.isPristine = true // Reset pristine state if desired, or leave as edited
+		nameInput.CursorPos = 0
+		nameInput.IsPristine = true // Reset pristine state if desired, or leave as edited
 		doneCheckbox.Checked = false
 		priorityGroup.Select(0) // Default to "Low"
 		indexInput.Text = ""
-		indexInput.cursorPos = 0
-		indexInput.isPristine = true
+		indexInput.CursorPos = 0
+		indexInput.IsPristine = true
 	}
 
 	// Sets the input fields based on a task index
@@ -204,8 +205,8 @@ func TestWindowApp() {
 		if index >= 0 && index < len(tasks) {
 			task := tasks[index]
 			nameInput.Text = task.Name
-			nameInput.cursorPos = len(task.Name)
-			nameInput.isPristine = false
+			nameInput.CursorPos = len(task.Name)
+			nameInput.IsPristine = false
 			doneCheckbox.Checked = task.Done
 			// Select correct radio button
 			priorityIndex := 0
@@ -217,8 +218,8 @@ func TestWindowApp() {
 			}
 			priorityGroup.Select(priorityIndex)
 			indexInput.Text = strconv.Itoa(index)
-			indexInput.cursorPos = len(indexInput.Text)
-			indexInput.isPristine = false
+			indexInput.CursorPos = len(indexInput.Text)
+			indexInput.IsPristine = false
 			infoLabel.Text = fmt.Sprintf("Loaded task %d for editing.", index)
 			infoLabel.Color = colors.Cyan
 
@@ -320,8 +321,8 @@ func TestWindowApp() {
 		if indexInput != nil { // Ensure indexInput exists
 			idxStr := strconv.Itoa(newIndex)
 			indexInput.Text = idxStr
-			indexInput.cursorPos = len(idxStr)
-			indexInput.isPristine = false // Mark as edited since it reflects selection
+			indexInput.CursorPos = len(idxStr)
+			indexInput.IsPristine = false // Mark as edited since it reflects selection
 			// Optionally update info label
 			infoLabel.Text = fmt.Sprintf("Selected task index: %d", newIndex)
 			infoLabel.Color = colors.Cyan
@@ -392,7 +393,7 @@ func TestWindowApp() {
 	// Add Button - Keep Green
 	addButton := NewButton("Add", buttonStartX, actionButtonY, buttonWidth, colors.BoldGreen, colors.BgGreen+colors.BoldWhite, func() bool {
 		taskName := nameInput.Text
-		if nameInput.isPristine || taskName == "" {
+		if nameInput.IsPristine || taskName == "" {
 			infoLabel.Text = "Error: Task name cannot be empty."
 			infoLabel.Color = colors.Red
 			return false
@@ -422,7 +423,7 @@ func TestWindowApp() {
 			return false
 		}
 		taskName := nameInput.Text
-		if nameInput.isPristine || taskName == "" {
+		if nameInput.IsPristine || taskName == "" {
 			infoLabel.Text = "Error: Task name cannot be empty for Update."
 			infoLabel.Color = colors.Red
 			return false

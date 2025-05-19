@@ -145,8 +145,8 @@ type TextBox struct {
 	X, Y        int    // Position relative to window content area
 	Width       int
 	IsActive    bool // State for rendering/input handling
-	cursorPos   int  // Position of the cursor within the text
-	isPristine  bool // Flag to track if default text is present and untouched
+	CursorPos   int  // Position of the cursor within the text
+	IsPristine  bool // Flag to track if default text is present and untouched
 	cursorAbsX  int  // Absolute X position of cursor (set during Render)
 	cursorAbsY  int  // Absolute Y position of cursor (set during Render)
 }
@@ -161,12 +161,12 @@ func NewTextBox(initialText string, x, y, width int, color, activeColor string) 
 		Color:       color,
 		ActiveColor: activeColor,
 		IsActive:    false,
-		cursorPos:   len(initialText), // Cursor at the end initially
-		isPristine:  true,             // Initially contains default text
+		CursorPos:   len(initialText), // Cursor at the end initially
+		IsPristine:  true,             // Initially contains default text
 	}
 	// Clamp initial cursor position
-	if tb.cursorPos > len(tb.Text) {
-		tb.cursorPos = len(tb.Text)
+	if tb.CursorPos > len(tb.Text) {
+		tb.CursorPos = len(tb.Text)
 	}
 	return tb
 }
@@ -201,8 +201,8 @@ func (tb *TextBox) Render(buffer *strings.Builder, winX, winY int, _ int) {
 	viewStart := 0 // Index in tb.Text that corresponds to the start of the visible area
 
 	// Adjust viewStart based on cursor position to keep cursor visible
-	if tb.cursorPos >= tb.Width {
-		viewStart = tb.cursorPos - tb.Width + 1
+	if tb.CursorPos >= tb.Width {
+		viewStart = tb.CursorPos - tb.Width + 1
 	}
 	if viewStart < 0 { // Should not happen with above logic, but safety check
 		viewStart = 0
@@ -230,7 +230,7 @@ func (tb *TextBox) Render(buffer *strings.Builder, winX, winY int, _ int) {
 
 	// --- Cursor Position Calculation ---
 	// Calculate cursor position relative to the *start* of the textbox's absolute position
-	cursorRenderPos := tb.cursorPos - viewStart
+	cursorRenderPos := tb.CursorPos - viewStart
 
 	// Clamp the render position to be within the visible bounds of the textbox [0, tb.Width]
 	if cursorRenderPos < 0 {
