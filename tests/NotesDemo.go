@@ -155,7 +155,7 @@ func TestSegmentsApp() {
 	winY := (termHeight - winHeight) / 2
 
 	// Create Window
-	notesWin := NewWindow("📝", "Segmented Notes App", winX, winY, winWidth, winHeight,
+	notesWin := NewWindow("📝", "Window-Go Notes App", winX, winY, winWidth, winHeight,
 		"rounded", colors.BoldYellow, colors.Yellow, colors.BgBlack, colors.White)
 
 	contentAreaWidth := winWidth - 2
