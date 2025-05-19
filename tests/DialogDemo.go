@@ -50,20 +50,20 @@ func TestDialogApp() {
 	buttonSpacing := 2
 
 	// Single Line Prompt
-	singleLineBtn := NewButton("Single Line Prompt", 2, buttonY, 20, colors.BoldCyan, colors.BgWhite+colors.Cyan, func() bool {
+	singleLineBtn := NewButton("Single Line Prompt", 2, buttonY, 20, colors.BoldCyan, colors.BgWhite+colors.BoldCyan, func() bool {
 		if currentPrompt != nil {
 			currentPrompt.SetActive(false)
 			win.RemoveElement(currentPrompt)
 			currentPrompt = nil
 		}
 		buttons := []*PromptButton{
-			NewPromptButton("Yes", colors.Green, colors.BgWhite+colors.BoldGreen, func() bool {
+			NewPromptButton("Yes", colors.BoldGreen, colors.BgWhite+colors.BoldGreen, func() bool {
 				updateStatus("User selected Yes!", colors.Green)
 				win.RemoveElement(currentPrompt)
 				currentPrompt = nil
 				return false
 			}),
-			NewPromptButton("No", colors.Red, colors.BgWhite+colors.BoldRed, func() bool {
+			NewPromptButton("No", colors.BoldRed, colors.BgWhite+colors.BoldRed, func() bool {
 				updateStatus("User selected No!", colors.Red)
 				win.RemoveElement(currentPrompt)
 				currentPrompt = nil
@@ -74,24 +74,26 @@ func TestDialogApp() {
 			"Confirm",
 			"Do you want to proceed?",
 			2, winHeight-4, winWidth-4,
-			colors.BoldWhite, colors.White,
+			colors.BoldWhite,
+			colors.White,
 			buttons,
 		)
 		win.AddElement(currentPrompt)
 		currentPrompt.SetActive(true)
 		return false
 	})
+	singleLineBtn.SetActive(false)
 	win.AddElement(singleLineBtn)
 
 	// Info Dialog
-	infoBtn := NewButton("Info Dialog", 2, buttonY+buttonSpacing, 20, colors.BoldBlue, colors.BgWhite+colors.Blue, func() bool {
+	infoBtn := NewButton("Info Dialog", 2, buttonY+buttonSpacing, 20, colors.BoldBlue, colors.BgWhite+colors.BoldBlue, func() bool {
 		if currentDialog != nil {
 			currentDialog.SetActive(false)
 			win.RemoveElement(currentDialog)
 			currentDialog = nil
 		}
 		buttons := []*PromptButton{
-			NewPromptButton("OK", colors.BoldWhite, colors.BgWhite+colors.Blue, func() bool {
+			NewPromptButton("OK", colors.BoldBlue, colors.White+colors.BgBrightBlue, func() bool {
 				updateStatus("Info dialog closed", colors.Blue)
 				win.RemoveElement(currentDialog)
 				currentDialog = nil
@@ -102,7 +104,10 @@ func TestDialogApp() {
 			"Information",
 			"This is an information dialog box.\nIt can contain multiple lines of text and will automatically adjust its size based on content.",
 			winWidth/4, winHeight/4, winWidth/2,
-			colors.BgBlue, colors.Blue, colors.BoldWhite, colors.White,
+			colors.BgBlue,
+			colors.Blue,
+			colors.BoldWhite,
+			colors.White,
 			buttons,
 		)
 		win.AddElement(currentDialog)
@@ -112,20 +117,20 @@ func TestDialogApp() {
 	win.AddElement(infoBtn)
 
 	// Warning Dialog
-	warningBtn := NewButton("Warning Dialog", 2, buttonY+buttonSpacing*2, 20, colors.BoldYellow, colors.BgWhite+colors.Yellow, func() bool {
+	warningBtn := NewButton("Warning Dialog", 2, buttonY+buttonSpacing*2, 20, colors.BoldYellow, colors.BgWhite+colors.BoldYellow, func() bool {
 		if currentDialog != nil {
 			currentDialog.SetActive(false)
 			win.RemoveElement(currentDialog)
 			currentDialog = nil
 		}
 		buttons := []*PromptButton{
-			NewPromptButton("Continue", colors.BoldYellow, colors.BgWhite+colors.Yellow, func() bool {
+			NewPromptButton("Continue", colors.BoldYellow, colors.BgWhite+colors.BoldYellow, func() bool {
 				updateStatus("Warning acknowledged", colors.Yellow)
 				win.RemoveElement(currentDialog)
 				currentDialog = nil
 				return false
 			}),
-			NewPromptButton("Cancel", colors.BoldRed, colors.BgWhite+colors.Red, func() bool {
+			NewPromptButton("Cancel", colors.BoldRed, colors.BgWhite+colors.BoldRed, func() bool {
 				updateStatus("Warning dialog cancelled", colors.Red)
 				win.RemoveElement(currentDialog)
 				currentDialog = nil
@@ -187,25 +192,25 @@ func TestDialogApp() {
 			currentDialog = nil
 		}
 		buttons := []*PromptButton{
-			NewPromptButton("Option 1", colors.BoldCyan, colors.BgWhite+colors.Cyan, func() bool {
+			NewPromptButton("Option 1", colors.BoldCyan, colors.BgWhite+colors.BoldCyan, func() bool {
 				updateStatus("Selected Option 1", colors.Cyan)
 				win.RemoveElement(currentDialog)
 				currentDialog = nil
 				return false
 			}),
-			NewPromptButton("Option 2", colors.BoldGreen, colors.BgWhite+colors.Green, func() bool {
+			NewPromptButton("Option 2", colors.BoldGreen, colors.BgWhite+colors.BoldGreen, func() bool {
 				updateStatus("Selected Option 2", colors.Green)
 				win.RemoveElement(currentDialog)
 				currentDialog = nil
 				return false
 			}),
-			NewPromptButton("Option 3", colors.BoldYellow, colors.BgWhite+colors.Yellow, func() bool {
+			NewPromptButton("Option 3", colors.BoldMagenta, colors.BgWhite+colors.BoldMagenta, func() bool {
 				updateStatus("Selected Option 3", colors.Yellow)
 				win.RemoveElement(currentDialog)
 				currentDialog = nil
 				return false
 			}),
-			NewPromptButton("Cancel", colors.BoldRed, colors.BgWhite+colors.Red, func() bool {
+			NewPromptButton("Cancel", colors.BoldRed, colors.BgWhite+colors.BoldRed, func() bool {
 				updateStatus("Custom dialog cancelled", colors.Red)
 				win.RemoveElement(currentDialog)
 				currentDialog = nil

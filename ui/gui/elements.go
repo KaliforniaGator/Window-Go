@@ -109,6 +109,10 @@ func NewButton(text string, x, y, width int, color, activeColor string, action f
 	}
 }
 
+func (b *Button) SetActive(active bool) {
+	b.IsActive = active
+}
+
 func (b *Button) Render(buffer *strings.Builder, winX, winY int, _ int) {
 	absX := winX + b.X
 	absY := winY + b.Y
@@ -118,7 +122,7 @@ func (b *Button) Render(buffer *strings.Builder, winX, winY int, _ int) {
 	if b.IsActive {
 		renderColor = b.ActiveColor
 		buffer.WriteString(ReverseVideo()) // Indicate active state visually
-	} else if b.HighlightColor != "" && b.HighlightColor != b.Color {
+	} else if b.IsActive && b.HighlightColor != "" && b.HighlightColor != b.Color {
 		renderColor = b.HighlightColor
 	}
 	buffer.WriteString(renderColor)
@@ -2411,14 +2415,17 @@ func (p *Prompt) renderSingleLinePrompt(buffer *strings.Builder, absX, absY int)
 	// Render buttons
 	for i, button := range p.Buttons {
 		if button.IsActive {
+			buffer.WriteString(colors.BgReset)
 			buffer.WriteString(button.ActiveColor)
 			buffer.WriteString(ReverseVideo())
 		} else {
+			buffer.WriteString(colors.BgReset)
 			buffer.WriteString(button.Color)
 		}
 
 		buffer.WriteString("[" + button.Text + "]")
 		buffer.WriteString(colors.Reset)
+		buffer.WriteString(colors.BgReset)
 
 		if i < len(p.Buttons)-1 {
 			buffer.WriteString(" ")
@@ -2513,14 +2520,17 @@ func (p *Prompt) renderDialogPrompt(buffer *strings.Builder, absX, absY int) {
 
 	for i, button := range p.Buttons {
 		if button.IsActive {
+			buffer.WriteString(colors.BgReset)
 			buffer.WriteString(button.ActiveColor)
 			buffer.WriteString(ReverseVideo())
 		} else {
+			buffer.WriteString(colors.BgReset)
 			buffer.WriteString(button.Color)
 		}
 
 		buffer.WriteString("[" + button.Text + "]")
 		buffer.WriteString(colors.Reset)
+		buffer.WriteString(colors.BgReset)
 
 		if i < len(p.Buttons)-1 {
 			buffer.WriteString(" ")

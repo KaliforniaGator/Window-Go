@@ -26,48 +26,48 @@ func TestMenuApp() {
 
 	// Create main window
 	win := NewWindow("🎯", "Window-Go Menu Demo", winX, winY, winWidth, winHeight,
-		"rounded", colors.BoldCyan, colors.Cyan, colors.BgBlack, colors.White)
+		"rounded", colors.BoldCyan, colors.Cyan, colors.BgBlack+colors.White, colors.White)
 
 	// Create menu bar
 	menuBar := NewMenuBar(0, 0, winWidth-2, colors.BgGray2, colors.Gray2, colors.BgBlack)
 
 	// File Menu
-	fileMenu := menuBar.AddSubMenu("File", colors.White, colors.BgWhite+colors.Black)
-	fileMenu.AddItem(NewMenuItem("New", colors.White, colors.BgWhite+colors.Black, func() bool {
+	fileMenu := menuBar.AddSubMenu("File", colors.White, colors.BgBlue+colors.White)
+	fileMenu.AddItem(NewMenuItem("New", colors.Cyan, colors.BgBlack+colors.White, func() bool {
 		return false
 	}))
-	fileMenu.AddItem(NewMenuItem("Open", colors.White, colors.BgWhite+colors.Black, func() bool {
+	fileMenu.AddItem(NewMenuItem("Open", colors.Cyan, colors.BgBlack+colors.White, func() bool {
 		return false
 	}))
-	fileMenu.AddItem(NewMenuItem("Save", colors.White, colors.BgWhite+colors.Black, func() bool {
+	fileMenu.AddItem(NewMenuItem("Save", colors.Cyan, colors.BgBlack+colors.White, func() bool {
 		return false
 	}))
-	fileMenu.AddItem(NewMenuItem("Exit", colors.White, colors.BgWhite+colors.Black, func() bool {
+	fileMenu.AddItem(NewMenuItem("Exit", colors.Cyan, colors.BgBlack+colors.White, func() bool {
 		return true // Quit
 	}))
 
 	// Edit Menu with Submenus
-	editMenu := menuBar.AddSubMenu("Edit", colors.White, colors.BgWhite+colors.Black)
-	formatSubmenu := editMenu.AddSubMenu("Format", colors.White, colors.BgWhite+colors.Black)
-	formatSubmenu.AddItem(NewMenuItem("Bold", colors.White, colors.BgWhite+colors.Black, nil))
-	formatSubmenu.AddItem(NewMenuItem("Italic", colors.White, colors.BgWhite+colors.Black, nil))
-	formatSubmenu.AddItem(NewMenuItem("Underline", colors.White, colors.BgWhite+colors.Black, nil))
+	editMenu := menuBar.AddSubMenu("Edit", colors.White, colors.BgBlue+colors.White)
+	formatSubmenu := editMenu.AddSubMenu("Format", colors.Cyan, colors.BgBlack+colors.White)
+	formatSubmenu.AddItem(NewMenuItem("Bold", colors.Cyan, colors.BgBlack+colors.White, nil))
+	formatSubmenu.AddItem(NewMenuItem("Italic", colors.Cyan, colors.BgBlack+colors.White, nil))
+	formatSubmenu.AddItem(NewMenuItem("Underline", colors.Cyan, colors.BgBlack+colors.White, nil))
 
 	// Add a deeply nested submenu for demonstration
-	advancedSubmenu := formatSubmenu.AddSubMenu("Advanced", colors.White, colors.BgWhite+colors.Black)
-	advancedSubmenu.AddItem(NewMenuItem("Option 1", colors.White, colors.BgWhite+colors.Black, nil))
-	advancedSubmenu.AddItem(NewMenuItem("Option 2", colors.White, colors.BgWhite+colors.Black, nil))
+	advancedSubmenu := formatSubmenu.AddSubMenu("Advanced", colors.Cyan, colors.BgBlack+colors.White)
+	advancedSubmenu.AddItem(NewMenuItem("Option 1", colors.Cyan, colors.BgBlack+colors.White, nil))
+	advancedSubmenu.AddItem(NewMenuItem("Option 2", colors.Cyan, colors.BgBlack+colors.White, nil))
 
 	// View Menu
-	viewMenu := menuBar.AddSubMenu("View", colors.White, colors.BgWhite+colors.Black)
-	viewMenu.AddItem(NewMenuItem("Zoom In", colors.White, colors.BgWhite+colors.Black, nil))
-	viewMenu.AddItem(NewMenuItem("Zoom Out", colors.White, colors.BgWhite+colors.Black, nil))
-	viewMenu.AddItem(NewMenuItem("Reset Zoom", colors.White, colors.BgWhite+colors.Black, nil))
+	viewMenu := menuBar.AddSubMenu("View", colors.White, colors.BgBlue+colors.White)
+	viewMenu.AddItem(NewMenuItem("Zoom In", colors.Cyan, colors.BgBlack+colors.White, nil))
+	viewMenu.AddItem(NewMenuItem("Zoom Out", colors.Cyan, colors.BgBlack+colors.White, nil))
+	viewMenu.AddItem(NewMenuItem("Reset Zoom", colors.Cyan, colors.BgBlack+colors.White, nil))
 
 	// Help Menu
-	helpMenu := menuBar.AddSubMenu("Help", colors.White, colors.BgWhite+colors.Black)
-	helpMenu.AddItem(NewMenuItem("Documentation", colors.White, colors.BgWhite+colors.Black, nil))
-	helpMenu.AddItem(NewMenuItem("About", colors.White, colors.BgWhite+colors.Black, nil))
+	helpMenu := menuBar.AddSubMenu("Help", colors.White, colors.BgBlue+colors.White)
+	helpMenu.AddItem(NewMenuItem("Documentation", colors.Cyan, colors.BgBlack+colors.White, nil))
+	helpMenu.AddItem(NewMenuItem("About", colors.Cyan, colors.BgBlack+colors.White, nil))
 
 	// Add the menu bar to the window
 	win.AddElement(menuBar)
