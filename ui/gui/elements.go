@@ -85,25 +85,27 @@ func (l *Label) Render(buffer *strings.Builder, winX, winY int, contentWidth int
 
 // Button represents a clickable button element.
 type Button struct {
-	Text        string
-	Color       string
-	ActiveColor string // Color when selected/active
-	X, Y        int    // Position relative to window content area
-	Width       int
-	Action      func() bool // Function to call when activated. Returns true to stop interaction loop.
-	IsActive    bool        // State for rendering
+	Text           string
+	Color          string
+	ActiveColor    string // Color when selected/active
+	HighlightColor string // Color when focused but not active
+	X, Y           int    // Position relative to window content area
+	Width          int
+	Action         func() bool // Function to call when activated. Returns true to stop interaction loop.
+	IsActive       bool        // State for rendering
 }
 
 func NewButton(text string, x, y, width int, color, activeColor string, action func() bool) *Button {
 	return &Button{
-		Text:        text,
-		X:           x,
-		Y:           y,
-		Width:       width,
-		Color:       color,
-		ActiveColor: activeColor,
-		Action:      action,
-		IsActive:    false,
+		Text:           text,
+		X:              x,
+		Y:              y,
+		Width:          width,
+		Color:          color,
+		ActiveColor:    activeColor,
+		HighlightColor: activeColor, // Default to activeColor if not specified
+		Action:         action,
+		IsActive:       false,
 	}
 }
 
@@ -115,7 +117,9 @@ func (b *Button) Render(buffer *strings.Builder, winX, winY int, _ int) {
 	renderColor := b.Color
 	if b.IsActive {
 		renderColor = b.ActiveColor
-		buffer.WriteString(ReverseVideo()) // Indicate active state
+		buffer.WriteString(ReverseVideo()) // Indicate active state visually
+	} else if b.HighlightColor != "" && b.HighlightColor != b.Color {
+		renderColor = b.HighlightColor
 	}
 	buffer.WriteString(renderColor)
 
@@ -2015,6 +2019,7 @@ func (mb *MenuBar) NeedsCursor() bool {
 // GetCursorPosition implements CursorManager interface
 func (mb *MenuBar) GetCursorPosition() (int, int, bool) {
 	return 0, 0, false
+
 }
 
 // GetZIndex implements ZIndexer for MenuBar

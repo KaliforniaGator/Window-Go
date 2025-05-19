@@ -31,6 +31,19 @@ func initializeDemoApps() {
 		Description: "A note-taking demo application",
 		RunApp:      tests.TestSegmentsApp,
 	})
+
+	registerDemoApp(types.DemoApp{
+		ID:          3,
+		Name:        "Menu Demo",
+		Description: "A menu-based demo application",
+		RunApp:      tests.TestMenuApp,
+	})
+	registerDemoApp(types.DemoApp{
+		ID:          4,
+		Name:        "Dialog Demo",
+		Description: "A dialog-based demo application",
+		RunApp:      tests.TestDialogApp,
+	})
 }
 
 func printUsage() {
