@@ -98,9 +98,99 @@
     *   Keyboard navigation between buttons (Left/Right arrows or Tab for non-modal).
     *   Renders with a high Z-index to appear above other content.
 
-### Interfaces for Extensibility
+### Box Drawing Styles
 
-*   **`UIElement`:** Common interface for all renderable elements.
-*   **`KeyStrokeHandler`:** Allows custom window-level keyboard input processing.
-*   **`CursorManager`:** For elements that need to control cursor visibility and position (e.g., `TextBox`, `TextArea`).
-*   **`ZIndexer`:** For elements that need to be rendered in a specific stacking order (e.g., `Menu`, `Prompt`).
+The following box drawing styles are available:
+* `single` - Single line borders (┌─┐│└┘)
+* `double` - Double line borders (╔═╗║╚╝)
+* `round` - Rounded corners (╭─╮│╰╯)
+* `bold` - Bold lines (┏━┓┃┗┛)
+
+### Color Support
+
+Window-Go provides extensive color support through the `colors` package:
+
+* Regular Colors: red, green, yellow, blue, purple, cyan, gray, white, black
+* Bold Colors: bold_red, bold_green, bold_yellow, bold_blue, bold_purple, bold_cyan, bold_gray, bold_white, bold_black
+* Background Colors: bg_red, bg_green, bg_yellow, bg_blue, bg_purple, bg_cyan, bg_gray, bg_white, bg_black
+* Gray Shades: gray1, gray2, gray3, gray4, gray5
+* Background Grays: bg_gray1, bg_gray2, bg_gray3, bg_gray4, bg_gray5
+
+Colors can be combined using the + operator: `colors.BgBlue + colors.BoldWhite`
+
+### Helper Functions
+
+* `ClearScreen()` - Clears the terminal screen
+* `ClearScreenAndBuffer()` - Clears both screen and scrollback buffer
+* `MoveCursor(row, col)` - Positions cursor at specific coordinates
+* `HideCursor()` / `ShowCursor()` - Controls cursor visibility
+* `PrintColoredText()` - Print text with specified color
+* `PrintError()` / `PrintSuccess()` / `PrintWarning()` / `PrintInfo()` / `PrintDebug()` / `PrintAlert()` - Print formatted messages
+* `GetTerminalWidth()` / `GetTerminalHeight()` - Get terminal dimensions
+
+### Demo Applications
+
+The project includes several demo applications showcasing different features:
+
+1. **Freedom Task** - Task management demo
+   * CRUD operations for tasks
+   * Priority levels with color coding
+   * Progress tracking
+   * Scrollable task list with selection
+
+2. **Segmented Notes** - Note-taking demo
+   * Split-pane interface
+   * Note list with selection
+   * Multi-line text editing
+   * Word and character counting
+
+3. **Menu Demo** - Menu system showcase
+   * Hierarchical menu structure
+   * Nested submenus
+   * Keyboard navigation
+   * Modal and non-modal interactions
+
+4. **Dialog Demo** - Dialog system showcase
+   * Single line prompts
+   * Modal dialog boxes
+   * Various dialog types (info, warning, error)
+   * Custom dialog configurations
+
+### Running the Demos
+
+```bash
+# Build and run a specific demo
+window-go -app <number>
+
+# Available demos:
+window-go -app 1    # Freedom Task
+window-go -app 2    # Segmented Notes
+window-go -app 3    # Menu Demo
+window-go -app 4    # Dialog Demo
+```
+
+### Common Key Bindings
+
+* `Tab` / `Shift+Tab` - Navigate between interactive elements
+* `Arrow Keys` - Navigate within elements (lists, menus)
+* `Enter` - Activate buttons, select items
+* `Escape` - Close menus, non-modal dialogs
+* `Backspace` / `Delete` - Text editing
+* `q` or `Ctrl+C` - Quit application
+
+### Element Hierarchy and Z-Index
+
+Elements are rendered in layers based on their Z-index:
+1. Regular UI elements (default: 0)
+2. MenuBar (100)
+3. Menus and Submenus (150)
+4. Prompts and Dialogs (1000)
+
+### Custom Key Handling
+
+Implement the `KeyStrokeHandler` interface to add custom keyboard handling:
+```go
+type KeyStrokeHandler interface {
+    HandleKeyStroke(key []byte, w *Window) (handled bool, needsRender bool, shouldQuit bool)
+}
+```
